@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { beforeUpdate, onMount } from 'svelte';
-	import { xlink_attr } from 'svelte/internal';
+	import GitHubCorner from 'svelte-github-corner';
 
 	let gameOn = false;
 	let screenY: number;
@@ -22,6 +22,7 @@
 	let infoMenu: HTMLElement;
 	let linkedin: HTMLElement;
 	let cv: HTMLElement;
+	let github: HTMLElement;
 	let titleText = 'NIRO ÅHMAN';
 	let titleTextArray = titleText.split('');
 	let titleTextElements: HTMLElement[] = Array(titleTextArray.length);
@@ -78,7 +79,7 @@
 		for (let i = 0; i < projectiles.length; i++) {
 			projectileOverlaps(menu, projectiles[i]);
 			projectileOverlaps(infoMenu, projectiles[i]);
-
+			projectileOverlaps(github, projectiles[i]);
 			projectileOverlaps(linkedin, projectiles[i]);
 			projectileOverlaps(cv, projectiles[i]);
 			for (let j = 0; j < titleTextElements.length; j++) {
@@ -144,6 +145,19 @@
 />
 
 <div class="wrapper">
+	<div bind:this={github}>
+		<GitHubCorner
+			href="https://github.com/vollehman/nirofi"
+			title="This page in github"
+			ariaLabel="Click here for riches"
+			target="_blank"
+			corner="topRight"
+			style="z-index: 42;"
+			--ghc-bg="white"
+			--ghc-color="black"
+		/>
+	</div>
+
 	<h1>
 		{#each titleTextArray as char, i}
 			<span bind:this={titleTextElements[i]}>{char}</span>
@@ -274,9 +288,9 @@
 		position: absolute;
 		width: 200px;
 		height: 150px;
-		border-top: 2px solid hotpink;
-		border-left: 2px solid hotpink;
-		border-bottom: 2px solid hotpink;
+		border-top: 2px solid rgb(255, 0, 119);
+		border-left: 2px solid rgb(255, 0, 119);
+		border-bottom: 2px solid rgb(255, 0, 119);
 		background-color: rgba(255, 0, 119, 0.5);
 		padding: 10px;
 		display: flex;
