@@ -59,6 +59,8 @@
 					];
 					console.log(enemies);
 					break;
+				case 'Escape':
+					break;
 			}
 		}
 	}
@@ -213,9 +215,9 @@
 			class="menu"
 			style="left: {screenX - 220}px; top: {screenY / 2 - 225}px"
 		>
-			<div>Arrows: move</div>
+			<div>Arrows / wasd: move</div>
 			<div>Space: fire</div>
-			<div>Esc: reset</div>
+			<div>F5: reset</div>
 		</div>
 	{:else if rendered}
 		<div
@@ -240,7 +242,7 @@
 	{#each explosions as { x, y }, i}
 		<div
 			transition:fade={{ duration: 80 }}
-			style="position: absolute; left: {x}px; top: {y - 30}px; "
+			style="position: absolute; left: {x - 30}px; top: {y - 30}px; "
 		>
 			<img src="explosion.png" alt="" width={60} height={60} />
 		</div>
