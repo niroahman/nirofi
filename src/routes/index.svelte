@@ -177,7 +177,7 @@
 			class="spaceship"
 			style="position: absolute; left: {shipLeft}px; top: {shipTop}px"
 		>
-			<img src="static/ship.png" alt="ship" width={shipWidht} height={shipHeight} />
+			<img src="ship.png" alt="ship" width={shipWidht} height={shipHeight} />
 		</div>
 		<div
 			bind:this={menu}
@@ -216,11 +216,11 @@
 	{/if}
 	{#each enemies as { x, y }, i}
 		<div class="enemy" style="position: absolute; left: {x}px; top: {y}px">
-			<img src="static/niro.jpeg" alt="enemy" width={shipWidht} height={shipHeight} />
+			<img src="niro.jpeg" alt="enemy" width={shipWidht} height={shipHeight} />
 		</div>{/each}
 	{#each projectiles as { x, y, visible }, i}
 		<div class="projectile" style="position: absolute; left: {x}px; top: {y}px; visible={visible}">
-			<img src="static/projectile.png" alt="projectile" width={10} height={30} />
+			<img src="projectile.png" alt="projectile" width={10} height={30} />
 		</div>{/each}
 	<div class="" />
 	{#each explosions as { x, y }, i}
@@ -228,7 +228,7 @@
 			transition:fade={{ duration: 80 }}
 			style="position: absolute; left: {x}px; top: {y - 30}px; "
 		>
-			<img src="static/explosion.png" alt="" width={60} height={60} />
+			<img src="explosion.png" alt="" width={60} height={60} />
 		</div>
 	{/each}
 </div>
