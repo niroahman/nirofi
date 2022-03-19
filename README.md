@@ -1,17 +1,19 @@
-niro.fi - place to hold my CV
+niro.fi - place to hold my CV etc.
 
-Sveltekit test and tryout.
+Basicly just a small project to try out Sveltekit, Vite, Typescript, Github actions and GCP.
 
-Deployed to Google cloud App Engine, static files to storage. By linkki adapteriin.
+Uses svelte-adapter-appengine for GCP app engine and storage deployments.
+https://github.com/HalfdanJ/svelte-adapter-appengine
 
-TODO:
+TODO
 
-- github actions build and deploy to app engine
 - ability to shoot the github link
 - score counting by how many elements destroyed
 - global top scores, a bit backend and database. Top scores ofc 3 letter etc.
 - Boss mode after clearing everything. Flying faces etc.
 - Game over needed for scores to be meaningfull :)
+
+Below original README.md
 
 # create-svelte
 

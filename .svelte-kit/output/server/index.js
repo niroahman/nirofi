@@ -458,21 +458,16 @@ function writable(value, start = noop) {
 function coalesce_to_error(err) {
   return err instanceof Error || err && err.name && err.message ? err : new Error(JSON.stringify(err));
 }
-const render_json_payload_script_dict = {
+const escape_json_in_html_dict = {
   "<": "\\u003C",
+  ">": "\\u003E",
+  "/": "\\u002F",
   "\u2028": "\\u2028",
   "\u2029": "\\u2029"
 };
-const render_json_payload_script_regex = new RegExp(`[${Object.keys(render_json_payload_script_dict).join("")}]`, "g");
-function render_json_payload_script(attrs, payload) {
-  const safe_payload = JSON.stringify(payload).replace(render_json_payload_script_regex, (match) => render_json_payload_script_dict[match]);
-  let safe_attrs = "";
-  for (const [key2, value] of Object.entries(attrs)) {
-    if (value === void 0)
-      continue;
-    safe_attrs += ` sveltekit:data-${key2}=${escape_html_attr(value)}`;
-  }
-  return `<script type="application/json"${safe_attrs}>${safe_payload}<\/script>`;
+const escape_json_in_html_regex = new RegExp(`[${Object.keys(escape_json_in_html_dict).join("")}]`, "g");
+function escape_json_in_html(val) {
+  return JSON.stringify(val).replace(escape_json_in_html_regex, (match) => escape_json_in_html_dict[match]);
 }
 const escape_html_attr_dict = {
   "&": "&amp;",
@@ -929,9 +924,14 @@ ${rendered.css.code}`;
       }
       body += `
 		<script ${attributes.join(" ")}>${init_app}<\/script>`;
-      body += serialized_data.map(({ url: url2, body: body2, response }) => render_json_payload_script({ type: "data", url: url2, body: typeof body2 === "string" ? hash(body2) : void 0 }, response)).join("\n	");
+      body += serialized_data.map(({ url: url2, body: body2, json }) => {
+        let attributes2 = `type="application/json" data-type="svelte-data" data-url=${escape_html_attr(url2)}`;
+        if (body2)
+          attributes2 += ` data-body="${hash(body2)}"`;
+        return `<script ${attributes2}>${json}<\/script>`;
+      }).join("\n	");
       if (shadow_props) {
-        body += render_json_payload_script({ type: "props" }, shadow_props);
+        body += `<script type="application/json" data-type="svelte-props">${escape_json_in_html(shadow_props)}<\/script>`;
       }
     }
     if (options.service_worker) {
@@ -1225,12 +1225,7 @@ async function load_node({
                 fetched.push({
                   url: requested,
                   body: opts.body,
-                  response: {
-                    status: status_number,
-                    statusText: response2.statusText,
-                    headers,
-                    body
-                  }
+                  json: `{"status":${status_number},"statusText":${s(response2.statusText)},"headers":${s(headers)},"body":${escape_json_in_html(body)}}`
                 });
               }
               if (dependency) {

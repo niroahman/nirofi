@@ -1,6 +1,6 @@
 import path from 'node:path';
 // eslint-disable-next-line camelcase
-import {installFetch} from '@sveltejs/kit/install-fetch';
+import {__fetch_polyfill} from '@sveltejs/kit/install-fetch';
 import {getRequest, setResponse} from '@sveltejs/kit/node';
 import compression from 'compression';
 import {manifest} from './manifest.js';
@@ -8,7 +8,7 @@ import polka from 'polka';
 import sirv from 'sirv';
 import {Server} from '../output/server/index.js';
 
-installFetch();
+__fetch_polyfill();
 
 const app = new Server(manifest);
 
