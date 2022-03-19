@@ -7,6 +7,9 @@ https://github.com/HalfdanJ/svelte-adapter-appengine
 
 TODO
 
+- mobile friendly
+- styles with less/sass
+- split to components
 - ability to shoot the github link
 - score counting by how many elements destroyed
 - global top scores, a bit backend and database. Top scores ofc 3 letter etc.
