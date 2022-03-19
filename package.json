@@ -25,7 +25,7 @@
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.5.0",
 		"svelte": "^3.44.0",
-		"svelte-adapter-appengine": "^0.5.1",
+		"svelte-adapter-appengine": "github:vollehman/svelte-adapter-appengine",
 		"svelte-check": "^2.2.6",
 		"svelte-github-corner": "^0.1.0",
 		"svelte-inview": "^3.0.0",

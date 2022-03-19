@@ -2495,9 +2495,8 @@
   "resolved" "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   "version" "1.0.0"
 
-"svelte-adapter-appengine@^0.5.1":
-  "integrity" "sha512-bN2uhyXw/OErA98CmwG7VRep+HIU/P8ILMfxstFJooktq2KQSg+sQ6ENq8I7xc2qPF+P4S3PDGKzyTvR47UDXw=="
-  "resolved" "https://registry.npmjs.org/svelte-adapter-appengine/-/svelte-adapter-appengine-0.5.1.tgz"
+"svelte-adapter-appengine@github:vollehman/svelte-adapter-appengine":
+  "resolved" "git+ssh://git@github.com/vollehman/svelte-adapter-appengine.git#917402a2946aa4bf4485c470b5800954635204a2"
   "version" "0.5.1"
   dependencies:
     "compression" "^1.7.4"
