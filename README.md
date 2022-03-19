@@ -1,3 +1,18 @@
+niro.fi - place to hold my CV
+
+Sveltekit test and tryout.
+
+Deployed to Google cloud App Engine, static files to storage. By linkki adapteriin.
+
+TODO:
+
+- github actions build and deploy to app engine
+- ability to shoot the github link
+- score counting by how many elements destroyed
+- global top scores, a bit backend and database. Top scores ofc 3 letter etc.
+- Boss mode after clearing everything. Flying faces etc.
+- Game over needed for scores to be meaningfull :)
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
