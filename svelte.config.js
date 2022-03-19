@@ -10,6 +10,9 @@ const config = {
 
 	kit: {
 		adapter: appengine()
+	},
+	vite: {
+		svelte: { configFile: '../svelte.config.js' }
 	}
 };
 

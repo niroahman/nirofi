@@ -616,7 +616,7 @@
   dependencies:
     "esbuild" "^0.14.21"
 
-"@sveltejs/kit@>=1.0.0-next.280", "@sveltejs/kit@1.0.0-next.288":
+"@sveltejs/kit@>=1.0.0-next.280", "@sveltejs/kit@next":
   "integrity" "sha512-6ky4CUFNGKoU1QV+fY2LOIB7atHdUCIMRx3pX21B2g9yZzQzkot0zHBrMMBSKF0/4Wx19PLEWrlGxlhakYmi8Q=="
   "resolved" "https://registry.npmjs.org/@sveltejs/kit/-/kit-1.0.0-next.288.tgz"
   "version" "1.0.0-next.288"
