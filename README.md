@@ -10,11 +10,13 @@ TODO
 - mobile friendly
 - styles with less/sass
 - split to components
-- ability to shoot the github link
+- ~~ability to shoot the github link~~
 - score counting by how many elements destroyed
 - global top scores, a bit backend and database. Top scores ofc 3 letter etc.
 - Boss mode after clearing everything. Flying faces etc.
 - Game over needed for scores to be meaningfull :)
+- Add unit tests with Jest
+- Error handlings
 
 Below original README.md
 
