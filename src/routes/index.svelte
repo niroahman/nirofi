@@ -2,7 +2,9 @@
 	import { fly, fade } from 'svelte/transition';
 	import { beforeUpdate, onMount } from 'svelte';
 	import GitHubCorner from 'svelte-github-corner';
+	import Button from '$lib/linkButton.svelte';
 
+	let scores = [];
 	let gameOn = false;
 	let screenY: number;
 	let screenX: number;
@@ -84,6 +86,7 @@
 			projectileOverlaps(github, projectiles[i]);
 			projectileOverlaps(linkedin, projectiles[i]);
 			projectileOverlaps(cv, projectiles[i]);
+
 			for (let j = 0; j < titleTextElements.length; j++) {
 				projectileOverlaps(titleTextElements[j], projectiles[i]);
 			}
@@ -120,10 +123,17 @@
 		}
 	}
 	let rendered = false;
+
 	onMount(() => {
 		shipLeft = screenX / 2 - shipWidht / 2;
 		shipTop = screenY - 200 - shipHeight / 2;
 		rendered = true;
+		fetch('/scores')
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				scores = data;
+			});
 	});
 
 	let ms = 40;
@@ -145,109 +155,107 @@
 	bind:innerWidth={screenX}
 	bind:innerHeight={screenY}
 />
+<main>
+	<div class="wrapper">
+		<div class="githubContainer" bind:this={github}>
+			<GitHubCorner
+				href="https://github.com/vollehman/nirofi"
+				title="This page in github"
+				ariaLabel="Click here for riches"
+				target="_blank"
+				corner="topRight"
+				style="z-index: 42;"
+				--ghc-bg="white"
+				--ghc-color="black"
+			/>
+		</div>
 
-<div class="wrapper">
-	<div bind:this={github}>
-		<GitHubCorner
-			href="https://github.com/vollehman/nirofi"
-			title="This page in github"
-			ariaLabel="Click here for riches"
-			target="_blank"
-			corner="topRight"
-			style="z-index: 42;"
-			--ghc-bg="white"
-			--ghc-color="black"
-		/>
-	</div>
+		<h1>
+			{#each titleTextArray as char, i}
+				<span bind:this={titleTextElements[i]}>{char}</span>
+			{/each}
+		</h1>
 
-	<h1>
-		{#each titleTextArray as char, i}
-			<span bind:this={titleTextElements[i]}>{char}</span>
+		<p>
+			{#each introTextArray as char, i}
+				<span bind:this={introTextElements[i]}>{char}</span>
+			{/each}
+		</p>
+		<div class="linkButtonRow">
+			<div bind:this={linkedin}>
+				<Button url="https://www.linkedin.com/in/niroahman/" text="LinkedIn" />
+			</div>
+			<div bind:this={cv}>
+				<Button url="Niro_Åhman_CV_en" text="Download CV" />
+			</div>
+		</div>
+
+		{#if gameOn}
+			<div
+				in:fly={{ y: screenY, delay: 100, duration: 1000 }}
+				out:fly={{ y: -screenY, delay: 100, duration: 1000 }}
+				class="spaceship"
+				style="position: absolute; left: {shipLeft}px; top: {shipTop}px"
+			>
+				<img src="ship.png" alt="ship" width={shipWidht} height={shipHeight} />
+			</div>
+			<div
+				bind:this={menu}
+				in:fly={{ x: 220, duration: 1500 }}
+				out:fly={{ x: 220, duration: 1500 }}
+				class="menu"
+				style="left: {screenX - 220}px; top: {screenY / 2 - 25}px"
+			>
+				<button on:click={() => (gameOn = !gameOn)}>reset</button>
+				<div>Ship speed</div>
+				<input type="range" bind:value={shipSpeed} min="10" max="100" />
+				<div>Game speed</div>
+				<input type="range" bind:value={ms} min="5" max="100" />
+			</div>
+			<div
+				bind:this={infoMenu}
+				in:fly={{ x: 220, duration: 1500 }}
+				out:fly={{ x: 220, duration: 1500 }}
+				class="menu"
+				style="left: {screenX - 220}px; top: {screenY / 2 - 225}px"
+			>
+				<div>Arrows / wasd: move</div>
+				<div>Space: fire</div>
+				<div>F5: reset</div>
+			</div>
+		{:else if rendered}
+			<div
+				in:fly={{ y: screenY, delay: 0, duration: 1500 }}
+				out:fly={{ y: -screenY, delay: 100, duration: 1000 }}
+				class="startButton"
+				style="top: {screenY - 300}px"
+				on:click={() => (gameOn = !gameOn)}
+			>
+				Boring? Launch ship!
+			</div>
+		{/if}
+		{#each enemies as { x, y }, i}
+			<div class="enemy" style="position: absolute; left: {x}px; top: {y}px">
+				<img src="niro.jpeg" alt="enemy" width={shipWidht} height={shipHeight} />
+			</div>{/each}
+		{#each projectiles as { x, y, visible }, i}
+			<div
+				class="projectile"
+				style="position: absolute; left: {x}px; top: {y}px; visible={visible}"
+			>
+				<img src="projectile.png" alt="projectile" width={10} height={30} />
+			</div>{/each}
+		<div class="" />
+		{#each explosions as { x, y }, i}
+			<div
+				transition:fade={{ duration: 80 }}
+				style="position: absolute; left: {x - 30}px; top: {y - 30}px; "
+			>
+				<img src="explosion.png" alt="" width={60} height={60} />
+			</div>
 		{/each}
-	</h1>
-
-	<p>
-		{#each introTextArray as char, i}
-			<span bind:this={introTextElements[i]}>{char}</span>
-		{/each}
-	</p>
-	<div class="linkButtonRow">
-		<button
-			bind:this={linkedin}
-			class="linkButton"
-			type="submit"
-			on:click={() => window.open('https://www.linkedin.com/in/niroahman')}>LinkedIn</button
-		>
-		<button
-			bind:this={cv}
-			class="linkButton"
-			type="submit"
-			on:click={() => window.open('Niro_Åhman_CV_en.pdf ')}>Download CV</button
-		>
 	</div>
-
-	{#if gameOn}
-		<div
-			in:fly={{ y: screenY, delay: 100, duration: 1000 }}
-			out:fly={{ y: -screenY, delay: 100, duration: 1000 }}
-			class="spaceship"
-			style="position: absolute; left: {shipLeft}px; top: {shipTop}px"
-		>
-			<img src="ship.png" alt="ship" width={shipWidht} height={shipHeight} />
-		</div>
-		<div
-			bind:this={menu}
-			in:fly={{ x: 220, duration: 1500 }}
-			out:fly={{ x: 220, duration: 1500 }}
-			class="menu"
-			style="left: {screenX - 220}px; top: {screenY / 2 - 25}px"
-		>
-			<button on:click={() => (gameOn = !gameOn)}>reset</button>
-			<div>Ship speed</div>
-			<input type="range" bind:value={shipSpeed} min="10" max="100" />
-			<div>Game speed</div>
-			<input type="range" bind:value={ms} min="5" max="100" />
-		</div>
-		<div
-			bind:this={infoMenu}
-			in:fly={{ x: 220, duration: 1500 }}
-			out:fly={{ x: 220, duration: 1500 }}
-			class="menu"
-			style="left: {screenX - 220}px; top: {screenY / 2 - 225}px"
-		>
-			<div>Arrows / wasd: move</div>
-			<div>Space: fire</div>
-			<div>F5: reset</div>
-		</div>
-	{:else if rendered}
-		<div
-			in:fly={{ y: screenY, delay: 0, duration: 1500 }}
-			out:fly={{ y: -screenY, delay: 100, duration: 1000 }}
-			class="startButton"
-			style="top: {screenY - 300}px"
-			on:click={() => (gameOn = !gameOn)}
-		>
-			Boring? Launch ship!
-		</div>
-	{/if}
-	{#each enemies as { x, y }, i}
-		<div class="enemy" style="position: absolute; left: {x}px; top: {y}px">
-			<img src="niro.jpeg" alt="enemy" width={shipWidht} height={shipHeight} />
-		</div>{/each}
-	{#each projectiles as { x, y, visible }, i}
-		<div class="projectile" style="position: absolute; left: {x}px; top: {y}px; visible={visible}">
-			<img src="projectile.png" alt="projectile" width={10} height={30} />
-		</div>{/each}
-	<div class="" />
-	{#each explosions as { x, y }, i}
-		<div
-			transition:fade={{ duration: 80 }}
-			style="position: absolute; left: {x - 30}px; top: {y - 30}px; "
-		>
-			<img src="explosion.png" alt="" width={60} height={60} />
-		</div>
-	{/each}
-</div>
+</main>
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -307,19 +315,12 @@
 		justify-content: space-evenly;
 		width: 600px;
 	}
-	.linkButton {
-		background-color: rgba(0, 195, 255, 0.7);
-		border-bottom: 6px inset rgba(0, 0, 0, 0.5);
-		border-left: 6px inset rgba(0, 0, 0, 0.5);
-		border-right: 6px inset rgba(255, 255, 255, 0.5);
-		border-top: 6px inset rgba(255, 255, 255, 0.5);
 
-		font-family: 'Press Start 2P', cursive;
-		color: white;
-		padding: 12px;
-	}
-
-	.linkButton:hover {
-		background-color: rgba(0, 195, 255, 0.9);
+	.githubContainer {
+		width: 66px;
+		height: 66px;
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 </style>

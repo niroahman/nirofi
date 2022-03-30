@@ -9,3 +9,4 @@ node_modules
 /.svelte-kit/output
 /.svelte-kit/runtime
 .svelte-kit
+package-lock.json
