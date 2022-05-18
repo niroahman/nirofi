@@ -186,7 +186,7 @@
 				<Button url="https://www.linkedin.com/in/niroahman/" text="LinkedIn" />
 			</div>
 			<div bind:this={cv}>
-				<Button url="Niro_Åhman_CV_en" text="Download CV" />
+				<Button url="Niro_Åhman_CV_en.pdf" text="Download CV" />
 			</div>
 		</div>
 
